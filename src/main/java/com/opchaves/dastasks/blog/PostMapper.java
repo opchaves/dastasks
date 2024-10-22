@@ -9,18 +9,17 @@ import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.bson.types.ObjectId;
 
 /**
  * Mapper to map all fields from a {@link Post} to another {@link Post}.
  *
  */
-@Mapper(componentModel = JAKARTA_CDI, imports = { LocalDateTime.class, ObjectId.class })
+@Mapper(componentModel = JAKARTA_CDI, imports = { LocalDateTime.class })
 public interface PostMapper {
 
-  @Mapping(target = "id", expression = "java(new ObjectId())")
-  @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
-  @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "updatedAt", ignore = true)
   public Post toEntity(Post input);
 
   @BeanMapping(nullValuePropertyMappingStrategy = IGNORE)

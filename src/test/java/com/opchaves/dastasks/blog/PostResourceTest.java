@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -55,7 +54,7 @@ class PostResourceTest {
         .log().all(true)
         .statusCode(Status.CREATED.getStatusCode())
         .contentType(ContentType.JSON)
-        .body("id", is(post.id.toHexString()))
+        .body("id", is(post.id.intValue()))
         .body("title", is(post.title));
   }
 
@@ -74,7 +73,7 @@ class PostResourceTest {
 
   private static Post createValidPost() {
     Post post = new Post();
-    post.id = new ObjectId();
+    post.id = 10L;
     post.title = "Post title";
     post.slug = "post-title";
     post.content = "Post content";

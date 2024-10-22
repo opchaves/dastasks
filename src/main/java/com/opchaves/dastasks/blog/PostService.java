@@ -2,8 +2,6 @@ package com.opchaves.dastasks.blog;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
-
 import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.WebApplicationException;
@@ -20,12 +18,12 @@ public class PostService {
     return Post.listAll();
   }
 
-  private Post findPost(String id) {
-    return Post.<Post>findByIdOptional(new ObjectId(id))
+  private Post findPost(Long id) {
+    return Post.<Post>findByIdOptional(id)
         .orElseThrow(() -> new WebApplicationException("Post not found", 404));
   }
 
-  public Post findById(String id) {
+  public Post findById(Long id) {
     return this.findPost(id);
   }
 
@@ -44,7 +42,7 @@ public class PostService {
     return newPost;
   }
 
-  public Post update(String id, Post post) {
+  public Post update(Long id, Post post) {
     Post aPost = this.findPost(id);
     postMapper.partialUpdate(post, aPost);
     aPost.persist();
@@ -52,7 +50,7 @@ public class PostService {
     return aPost;
   }
 
-  public void delete(String id) {
+  public void delete(Long id) {
     Post aPost = this.findPost(id);
     aPost.delete();
   }

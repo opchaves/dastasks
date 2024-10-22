@@ -3,7 +3,7 @@ package com.opchaves.dastasks.blog;
 import java.net.URI;
 import java.util.List;
 
-import io.quarkus.logging.Log;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -28,18 +28,13 @@ public class PostResource {
 
   @GET
   @Path("/{id}")
-  public Post findById(String id) {
+  public Post findById(Long id) {
     return postService.findById(id);
-  }
-
-  @GET
-  @Path("/{slug}")
-  public Post findBySlug(String slug) {
-    return postService.findBySlug(slug);
   }
 
   @POST
   @Path("/")
+  @Transactional
   public Response create(@Valid Post post) {
     Post newPost = postService.create(post);
 
@@ -49,13 +44,15 @@ public class PostResource {
 
   @PUT
   @Path("/{id}")
-  public Post update(String id, @Valid Post post) {
+  @Transactional
+  public Post update(Long id, @Valid Post post) {
     return postService.update(id, post);
   }
 
   @DELETE
   @Path("/{id}")
-  public void delete(String id) {
+  @Transactional
+  public void delete(Long id) {
     postService.delete(id);
   }
 }
